@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <div class="div">
+        <form action="{% url 'check_plag' %}" method="POST" class="form-register" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit"> send </button>
+        </form>
+
+        {% if result %}
+            <h2>Result</h2>
+            <p>{{ result }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
