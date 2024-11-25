@@ -28,8 +28,6 @@ def report_view(request):
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
-
-
 # def report_view(request):
 #     if request.method == "POST":
 #         text = request.POST.get('text', '')

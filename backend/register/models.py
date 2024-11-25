@@ -8,7 +8,15 @@ class Register(models.Model):
     
     def __str__(self):
         return f"{self.fio}, {self.university_group}"
+
+class RegisterForTeacher(models.Model):
+    username = models.CharField(max_length=100)
+    fio = models.CharField(max_length=400)
+    password = models.CharField(max_length=200)
+    email = models.EmailField()
     
+    def __str__(self):
+        return f"{self.fio}"
     
     
 

@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'f717-93-170-46-110.ngrok-free.app',
+    '8e40-93-170-46-110.ngrok-free.app',
 ]
 APPEND_SLASH = False
 
@@ -64,7 +64,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
-    'https://622a-46-150-80-95.ngrok-free.app'
+    'https://361f-46-150-80-50.ngrok-free.app'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -155,4 +155,3 @@ JWT_ALGORITHM = 'HS256'
 JWT_EXPIRATION_DELTA = datetime.timedelta(days=7)
 
 OPENAI_API_KEY = config('OPENAI_API_KEY')
-# COPYLEAKS_API_KEY = config('COPYLEAKS_API_KEY')
