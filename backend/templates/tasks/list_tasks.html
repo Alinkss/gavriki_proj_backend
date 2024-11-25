@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Tasks</title>
+    <style>
+        .task {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .task h2 {
+            margin: 0;
+        }
+        .task p {
+            margin: 5px 0;
+        }
+        .task a {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Tasks</h1>
+
+    {% for task in tasks %}
+        <div class="task">
+            <h2>{{ task.title }}</h2>
+            <p>{{ task.content|truncatewords:20 }}</p>
+            <p><strong>Deadline:</strong> {{ task.dedline }}</p>
+            <a href="{% url 'task_detail' task.id %}">View Task</a>
+        </div>
+    {% endfor %}
+
+    {% if not tasks %}
+        <p>No tasks available.</p>
+    {% endif %}
+</body>
+</html>

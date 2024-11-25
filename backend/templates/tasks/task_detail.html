@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Task Details</h1>
+    
+    <div class="task-header">
+        <h2>{{ task.title }}</h2>
+        <p><strong>Content:</strong> {{ task.content }}</p>
+        <p><strong>Deadline:</strong> {{ task.dedline }}</p>
+        <p><strong>Published Date:</strong> {{ task.published_date }}</p>
+    </div>
+
+    <hr>
+
+    <h3>Submit Your Task</h3>
+    <form method="post" action="{% url 'send_task' task.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Task</button>
+    </form>
+
+    <div class="submissions">
+        <h3>Submissions</h3>
+        {% if submissions %}
+            {% for submission in submissions %}
+                <div class="submission">
+                    <p class="user">{{ submission.user.username }}</p>
+                    <p>{{ submission.text }}</p>
+                    <p class="date">Submitted on: {{ submission.published_date }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No submissions yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

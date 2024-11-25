@@ -59,6 +59,7 @@ def analysis_text(request):
         'message': 'Invalid request method or form not valid.'
     })
 
+
 # def analysis_text(request):
 #     result = None
 #     if request.method == 'POST':

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>send task</title>
+</head>
+<body>
+    <h1>Submit Task: {{ task.title }}</h1>
+    <p>{{ task.content }}</p>
+    <p>Deadline: {{ task.dedline }}</p>
+    
+    <form method="post" action="{% url 'send_text' task.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Task</button>
+    </form>
+</body>
+</html>

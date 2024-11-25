@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'anti_plag',
     'register',
+    'tasks',
     'corsheaders',
 ]
 
