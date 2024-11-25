@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <div class="div">
+        <form method="POST" action="{% url 'analysis_text' %}">
+            {% csrf_token %}
+            {{ text_form.as_p }}
+            <button type="submit">Проверить текст</button>
+        </form>
+        
+        {% if result %}
+            <h2>Исправленный текст:</h2>
+            <p>{{ result }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
