@@ -60,6 +60,7 @@ def list_tasks(request):
             'content': task.content,
             'dedline': task.dedline.strftime('%Y-%m-%d %H:%M:%S'),
             'published_date': task.published_date.strftime('%Y-%m-%d %H:%M:%S') if task.published_date else None,
+            'teacher_fio': f"{task.teacher.fio}" if task.teacher else None
         }
         for task in tasks
     ]
