@@ -5,6 +5,7 @@ import openai
 from django.conf import settings
 from anti_plag.forms import TextForm
 import requests
+from anti_plag.utils.similarity import generate_report
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -78,31 +79,91 @@ def analysis_text(request):
             
 #     return render(request, 'anti_plag/text_analysis.html', context)
 
+
+
+# def report_view(request):
+#     if request.method == "POST":
+#         text = request.POST.get('text', '')
+#         language = request.POST.get('language', 'english') 
+
+#         if not text:
+#             if request.headers.get('Accept') == 'application/json':
+#                 return JsonResponse({'error': 'No text provided.'}, status=400)
+#             return render(request, 'anti_plag/report.html', {'error': 'Please provide text for analysis.'})
+
+#         matches = generate_report(text, language)
+
+#         form_json = [
+#             {
+#                 'url': url,
+#                 'similarity': similarity,
+#             } for url, similarity in matches.items()
+#         ]
+
+
+#         if request.headers.get('Accept') == 'application/json':
+#             return JsonResponse({'matches': form_json})
+
+#         context = {
+#             'matches': form_json,
+#         }
+#         return render(request, 'anti_plag/report.html', context)
+
+#     return render(request, 'anti_plag/report.html')
+
 def report_view(request):
     if request.method == "POST":
         text = request.POST.get('text', '')
+        language = request.POST.get('language', 'english') 
 
         if not text:
             return JsonResponse({'error': 'No text provided.'}, status=400)
-        matches = similarity.report(text)
-        
+
+        matches = generate_report(text, language)
+
         form_json = [
             {
-                'url': url, 'similarity': similarity
+                'url': url,
+                'similarity': round(min(similarity * 100, 100), 2),
             } for url, similarity in matches.items()
         ]
-        
-        context = {
-            'matches': form_json
-        }
 
-        return JsonResponse(
-                {
-                    'matches': form_json
-                }
-            )
+        return JsonResponse({'matches': form_json})
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+
+
+
+
+# for bing!
+
+
+# def report_view(request):
+#     if request.method == "POST":
+#         text = request.POST.get('text', '')
+
+#         if not text:
+#             return JsonResponse({'error': 'No text provided.'}, status=400)
+#         matches = similarity.report(text)
+        
+#         form_json = [
+#             {
+#                 'url': url, 'similarity': similarity
+#             } for url, similarity in matches.items()
+#         ]
+        
+#         context = {
+#             'matches': form_json
+#         }
+
+#         return JsonResponse(
+#                 {
+#                     'matches': form_json
+#                 }
+#             )
+
+#     return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
 # def report_view(request):
 #     if request.method == "POST":
