@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{ task.title }}</h1>
+    <p>{{ task.description }}</p>
+
+    {% if is_student %}
+        <h2>Submit Your Task</h2>
+        {% if stud_has_send %}
+            <p>You have already submitted this task.</p>
+        {% else %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    {% if is_teacher %}
+        <h2>Submissions</h2>
+        <ul>
+            {% for submission in submissions %}
+                <li>
+                    <strong>{{ submission.user.username }}</strong> - 
+                    {{ submission.published_date|date:"Y-m-d H:i" }}
+                </li>
+            {% empty %}
+                <li>No submissions yet.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

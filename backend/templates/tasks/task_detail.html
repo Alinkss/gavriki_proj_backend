@@ -18,7 +18,7 @@
     <hr>
 
     <h3>Submit Your Task</h3>
-    <form method="post" action="{% url 'send_task' task.id %}">
+    <form method="post" action="{% url 'task_detail' task.id %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit Task</button>

@@ -141,6 +141,41 @@ def get_user_by_jwt(request):
             return JsonResponse({'error': 'Invalid form'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+# def login_jwt(request):
+#     if request.method == 'POST':
+#         login_form = LoginForm(request.POST)
+#         if login_form.is_valid():
+#             username = login_form.cleaned_data['username']
+#             password = login_form.cleaned_data['password']
+            
+#             user = User.objects.get(username=username, password=password)
+            
+#             if user is not None:
+#                 user.last_login = now()
+#                 user.save()
+
+#                 token = jwt_token(user)
+                
+#                 context = {
+#                     'user': user,
+#                     'token': token,
+#                     'success': True,
+#                 }
+#                 return render(request, 'register/login_success.html', context)
+#             else:
+#                 return render(request, 'register/login.html', {
+#                     'form': login_form,
+#                     'errors': ['Invalid credentials'],
+#                 })
+#         else:
+#             return render(request, 'register/login.html', {
+#                 'form': login_form,
+#                 'errors': login_form.errors,
+#             })
+#     else:
+#         login_form = LoginForm()
+#         return render(request, 'register/login.html', {'form': login_form})
     
 def login_jwt(request):
     if request.method == 'POST':
