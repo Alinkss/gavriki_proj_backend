@@ -213,9 +213,9 @@ def send_task(request, task_id, user_id):
         
     return JsonResponse({'error': 'Invalid request method'}, status=405)
         
-def list_sended_tasks(request, task_id, user_id):
+def list_sended_tasks(request, user_id):
     user = User.objects.get(id=user_id)
-    sended_tasks = StudentSendTask.objects.filter(user_id=user_id, task_id=task_id)
+    sended_tasks = StudentSendTask.objects.filter(user_id=user_id)
     
     sended_tasks_serial = list(sended_tasks.values)
     user_serail = {
