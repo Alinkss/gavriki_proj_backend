@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '3830-93-170-46-110.ngrok-free.app',
+    'trust-mark-backend.onrender.com',
 ]
 APPEND_SLASH = False
 
