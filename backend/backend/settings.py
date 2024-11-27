@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from corsheaders.defaults import default_headers
 from pathlib import Path
 import os
 from decouple import config
@@ -30,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '3830-93-170-46-110.ngrok-free.app',
+    'trust-mark-backend.onrender.com',
 ]
 APPEND_SLASH = False
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'anti_plag',
     'register',
     'tasks',
@@ -68,7 +70,6 @@ CORS_ALLOWED_ORIGINS = [
     'https://f1a1-46-150-79-121.ngrok-free.app'
 ]
 
-from corsheaders.defaults import default_headers
 
 CORS_ALLOW_HEADERS = default_headers + (
     "ngrok-skip-browser-warning",
@@ -151,7 +152,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
