@@ -186,14 +186,16 @@ def list_tasks(request):
     
 #     return render(request, 'tasks/task_detail.html', context)
 
-@login_required
-def send_task(request, task_id):
+def send_task(request, task_id, user_id):
     tasks = get_object_or_404(Task, id=task_id)
+    user = User.objects.get(id=user_id)
+    
     if request.method == 'POST':
         send_form = SendTaskForm(request.POST)
+        print(request.user)
         if send_form.is_valid():
             send = send_form.save(commit=False)
-            send.user = request.user
+            send.user = user
             send.task = tasks
             send.save()
             
@@ -211,3 +213,21 @@ def send_task(request, task_id):
         
     return JsonResponse({'error': 'Invalid request method'}, status=405)
         
+def list_sended_tasks(request, task_id, user_id):
+    user = User.objects.get(id=user_id)
+    sended_tasks = StudentSendTask.objects.filter(user_id=user_id, task_id=task_id)
+    
+    sended_tasks_serial = list(sended_tasks.values)
+    user_serail = {
+        'id': user_id,
+        'username': user.username,
+        'email': user.email
+    }
+    
+    response_data = {
+        'sended_tasks': sended_tasks_serial,
+        'user': user_serail
+    }
+    
+    return JsonResponse(response_data)
+    
