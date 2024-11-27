@@ -19,6 +19,7 @@ import datetime
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+token = "331e8b84a02ad9b58916161b0a3ae762"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -32,6 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'trust-mark-backend.onrender.com',
+    'e18e-93-170-46-110.ngrok-free.app'
 ]
 APPEND_SLASH = False
 
@@ -67,7 +69,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
-    'https://f1a1-46-150-79-121.ngrok-free.app'
+    'https://cbe4-46-150-79-124.ngrok-free.app'
 ]
 
 

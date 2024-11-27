@@ -7,6 +7,7 @@ from anti_plag.forms import TextForm
 import requests
 from anti_plag.utils.similarity import generate_report
 from transformers import pipeline
+import json
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -22,19 +23,6 @@ def correct_text(text):
     
     corrected_text = response['choices'][0]['message']['content'].strip()
     return corrected_text
-
-# def human_or_ai(text):
-#     response = openai.ChatCompletion.create(
-#         model="gpt-3.5-turbo",
-#         messages=[
-#             {"role": "system", "content": "You are a detector that determines whether a text was written by an AI or a human."},
-#             {"role": "user", "content": f"Was this text written by AI or human? Text: {text}"}
-#         ],
-#         max_tokens=500
-#     )
-    
-#     corrected_text = response['choices'][0]['message']['content'].strip()
-#     return corrected_text
 
 def analysis_text(request):
     result = None
@@ -76,54 +64,6 @@ def analysis_text(request):
     
 classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
-# def human_or_ai(request):
-#     if request.method == "POST":
-#         text = request.POST.get("text", "")
-#         labels = ["AI generated", "Human written"]
-        
-#         if not text:
-#             return JsonResponse({"error": "No text provided"}, status=400)
-
-#         result = classifier(text, labels)
-        
-#         return JsonResponse(result)
-    
-#     return JsonResponse({"error": "Invalid request method"}, status=405)
-
-def human_or_ai(request):
-    result = None
-    paired_results = None
-    if request.method == "POST":
-        text = request.POST.get("text", "")
-        labels = ["AI generated", "Human written"]
-        
-        if text:
-            result = classifier(text, labels)
-            paired_results = zip(result["labels"], result["scores"])
-    
-    return render(request, "anti_plag/human_or_ai.html", {"result": result, "paired_results": paired_results})
-
-
-# def classify_ai_human(request):
-#     result = None
-#     if request.method == "POST":
-#         text = request.POST.get("text", None)
-
-#         response = openai.ChatCompletion.create(
-#             model="gpt-3.5-turbo", 
-#             messages=[
-#                 {"role": "system", "content": "You are a helpful assistant."},
-#                 {"role": "user", "content": f"Is the following text written by a human or AI?\n\n{text}"}
-#             ],
-#             max_tokens=60
-#         )
-
-#         result = response['choices'][0]['message']['content'].strip()
-            
-#     return render(request, "anti_plag/classify_text.html", {"result": result})
-
-
-
 # def analysis_text(request):
 #     result = None
 #     if request.method == 'POST':
@@ -141,7 +81,6 @@ def human_or_ai(request):
 #     }
             
 #     return render(request, 'anti_plag/text_analysis.html', context)
-
 
 
 # def report_view(request):
@@ -183,59 +122,22 @@ def report_view(request):
             return JsonResponse({'error': 'No text provided.'}, status=400)
 
         matches = generate_report(text, language)
-
-        form_json = [
-            {
-                'url': url,
-                'similarity': round(min(similarity * 100, 100), 2),
-            } for url, similarity in matches.items()
-        ]
+        
+        if len(matches) == 0:
+            form_json = [
+                {
+                    'url': 'No matches found.',
+                    'similarity': 0,
+                }
+            ]
+        else:
+            form_json = [
+                {
+                    'url': url,
+                    'similarity': round(min(similarity * 100, 100), 2),
+                } for url, similarity in matches.items()
+            ]
 
         return JsonResponse({'matches': form_json})
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
-
-
-
-
-
-# for bing!
-
-
-# def report_view(request):
-#     if request.method == "POST":
-#         text = request.POST.get('text', '')
-
-#         if not text:
-#             return JsonResponse({'error': 'No text provided.'}, status=400)
-#         matches = similarity.report(text)
-        
-#         form_json = [
-#             {
-#                 'url': url, 'similarity': similarity
-#             } for url, similarity in matches.items()
-#         ]
-        
-#         context = {
-#             'matches': form_json
-#         }
-
-#         return JsonResponse(
-#                 {
-#                     'matches': form_json
-#                 }
-#             )
-
-#     return JsonResponse({'error': 'Invalid request method.'}, status=405)
-
-# def report_view(request):
-#     if request.method == "POST":
-#         text = request.POST.get('text', '')
-
-#         if not text:
-#             return JsonResponse({'error': 'No text provided.'}, status=400)
-#         matches = similarity.report(text)
-
-#         return render(request, 'anti_plag/report.html', {'matches': matches})
-
-#     return render(request, 'anti_plag/report.html', {})
