@@ -230,4 +230,29 @@ def list_sended_tasks(request, user_id):
     }
     
     return JsonResponse(response_data)
+
+def delete_task(request, user_id, task_id):
+    user = User.objects.get(id=user_id)
+    sended_task = get_object_or_404(StudentSendTask, task_id=task_id, user_id=user_id)
     
+    if request.method == 'POST':
+        sended_task.delete()
+        
+        user_serail = {
+        'id': user_id,
+        'username': user.username,
+        'email': user.email
+        }
+    
+        response_data = {
+            'sended_task': sended_task.id,
+            'success': True, 
+            'message': 'Task deleted successfully',
+            'user': user_serail
+        }
+        
+        return JsonResponse(response_data)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+      
