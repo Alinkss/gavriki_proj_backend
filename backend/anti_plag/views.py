@@ -6,7 +6,6 @@ from django.conf import settings
 from anti_plag.forms import TextForm
 import requests
 from anti_plag.utils.similarity import generate_report
-from transformers import pipeline
 import json
 
 openai.api_key = settings.OPENAI_API_KEY
@@ -61,8 +60,6 @@ def analysis_text(request):
         'success': False,
         'message': 'Invalid request method or form not valid.'
     })
-    
-classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
 # def analysis_text(request):
 #     result = None
